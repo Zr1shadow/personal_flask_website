@@ -6,8 +6,10 @@
     <form method="POST" action="/post/manga">
         {{form.hidden_tag()}}
         <fieldset class = "form-group">
-            <legend class = "border-bottom mb-4"> New Manga Entry </legend>
-            
+            <legend class = "border-bottom mb-4"> READ ME </legend>
+            <p> Go to <a href = "https://m.manganelo.com/read" target = "_blank">manganelo.com</a> and click on any manga. Grab that manga's url and enter it on this site input bar. <br>
+                my site scraps infomation such as the title and chapters and inputs it into my own db.
+            </p>
             <div class = form-group>
                 {{ form.url.label(class = 'form-control-label')}}
                 
