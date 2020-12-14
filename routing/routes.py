@@ -4,6 +4,7 @@ from routing.models import User, Post
 from routing import app, db
 from Scrapers.mangaScraper import Scaper
 from flask_login import login_user, current_user, logout_user
+from routing.queries import MangaQueries
 
 @app.route('/')
 @app.route('/home')
@@ -40,22 +41,38 @@ def login():
             return redirect(url_for('home'))
     return render_template('login.html', title = 'Login', form = form)
 
-@app.route('/post/manga', methods = ['GET', 'POST'])
-def manga():
+@app.route('/post/manga', methods = ['POST', 'GET'])
+def manga_list():
     form = PostNewMangaEntry()
-    scraper = Scaper()
+    query = MangaQueries()
+    info = query.getAllMangaTitles()
     if form.validate_on_submit():
-        # manga = scraper.scape(form.url.data)
-        # title = scraper.getTitle()
-        chapters = scraper.getChapterNum(form.url.data)
+        
+    
+        scraper = Scaper(form.url.data)
+        scraper.getAllChapterNum()
+        title = scraper.getMangaTitle()
         flash('Manga has been found', 'success')
-        return render_template('manga.html', title = 'New Manga Entry', form = form)
+        return redirect(url_for('manga', manga_title = title))
         # return redirect(url_for('home'))
-    return render_template('manga.html', title = 'New Manga Entry', form = form)
+    return render_template('manga_list.html', title = 'New Manga Entry', form = form, info = info)
+
+
+@app.route('/manga/<manga_title>')
+def manga(manga_title):
+    query = MangaQueries()
+    info = query.getMangaContent(manga_title)
+    return render_template('manga.html', title = manga_title, info = info)
+
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('home'))
-    
+
+@app.route('/test')
+def test():
+    a = MangaQueries()
+    a.dailyUpdate()
+    return redirect(url_for('test'))
 

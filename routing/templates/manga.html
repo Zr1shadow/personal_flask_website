@@ -1,45 +1,33 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div>
-    <form method="POST" action="/post/manga">
-        {{form.hidden_tag()}}
-        <fieldset class = "form-group">
-            <legend class = "border-bottom mb-4"> New Manga Entry </legend>
-            
-            <div class = form-group>
-                {{ form.url.label(class = 'form-control-label')}}
-                
-                {% if form.url.errors %}
-                    {{form.url(class = "form-control form-control-lg is-invalid")}}
-                    <div class = 'invalid-feedback'>
-                        {% for error in form.url.errors %}
-                            <span>
-                                {{ error }}
-                            </span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.url(class = 'form-control form-control-lg')}}
-                {% endif %}
-            </div>
-            
-        </fieldset>
-        <div class = 'form-group'>
-            {{ form.submit(class = 'btn btn-outlint-info', onclick = "toggle_display()")}}
-        </div>
-    </form>
-</div>
+
+
+<h1>{{title}}</h1>
 
 
 
+<!-- <iframe onload="loadImage()">p</iframe> -->
 <script>
-function toggle_display(){
-    document.querySelector(".hidden").style.display = "block";
-}
-</script>
-<div class="hidden">
-    <h1> {{ manga_title }}</h1>
-    <h1> {{ manga_chapter }}</h1>
-</div>
+    function toggle_display(){
+        document.querySelector(".hidden").style.display = "block";
+    }
+    </script>
+
+<ul class = "shown">
+
+    {% for caption, href in info %}
+    
+    <li><a onclick = "toggle_display()" rel = "import" href=" {{ href }} " target="iframe_display">{{ caption }}</a></li>
+    
+    {% endfor %}
+ </ul> 
+ 
+ <!-- <script>
+     function toggle_display(){
+         document.querySelector(".shown").style.display = "none";
+         document.querySelector(".hidden").style.display = "block";
+     }
+ </script> -->
+
 {% endblock %}
