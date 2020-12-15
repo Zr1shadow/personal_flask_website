@@ -40,7 +40,7 @@ def login():
    
             return redirect(url_for('home'))
     return render_template('login.html', title = 'Login', form = form)
-@app.route('/')
+@app.route('/' methods = ['POST', 'GET'])
 @app.route('/post/manga', methods = ['POST', 'GET'])
 def manga_list():
     form = PostNewMangaEntry()
