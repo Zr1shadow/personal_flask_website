@@ -6,7 +6,7 @@ from Scrapers.mangaScraper import Scaper
 from flask_login import login_user, current_user, logout_user
 from routing.queries import MangaQueries
 
-@app.route('/')
+
 @app.route('/home')
 def home():
     return render_template('layout.html')
@@ -40,7 +40,7 @@ def login():
    
             return redirect(url_for('home'))
     return render_template('login.html', title = 'Login', form = form)
-
+@app.route('/')
 @app.route('/post/manga', methods = ['POST', 'GET'])
 def manga_list():
     form = PostNewMangaEntry()
