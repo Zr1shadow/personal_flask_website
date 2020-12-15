@@ -1,1 +1,1 @@
-web: python -py run.py $PORT
+web: python run.py 
