@@ -40,4 +40,7 @@ class MangaQueries():
 #             manga_link.append(y.chapter_link)
             
 #             print(x.id, x.title, y.chapter)
-
+    # @staticmethod
+    # def deleteManga():
+    #     db.session.query(Manga).delete()
+    #     db.session.commit()
