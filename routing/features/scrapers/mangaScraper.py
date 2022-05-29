@@ -1,8 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
 import json
-from routing.models import Manga, MangaChapters
+from routing.database.manga_schema import Manga, MangaChapters
 from routing import db
+
 class Scaper():
 
     def __init__(self, URL):

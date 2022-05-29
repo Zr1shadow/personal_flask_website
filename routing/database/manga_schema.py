@@ -39,8 +39,10 @@ class MangaChapters(db.Model):
 
     category_id = db.Column(db.Integer, db.ForeignKey('manga.id'),
         nullable=False)
+    
+    # cascade allows foreign key to be deleted when parent is deleted
     manga = db.relationship('Manga',
-        backref=db.backref('posts', lazy=True))
+        backref=db.backref('posts', lazy=True, cascade='all,delete'))
     
     def __repr__(self):
         return '<MangaChapters %r>' % self.chapter

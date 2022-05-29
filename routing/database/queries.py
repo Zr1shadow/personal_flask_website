@@ -1,5 +1,5 @@
 from routing import db 
-from routing.models import Manga, MangaChapters
+from routing.database.manga_schema import Manga, MangaChapters
 from sqlalchemy import text
 
 
@@ -35,12 +35,7 @@ class MangaQueries():
     def dailyUpdate(self):
         resutld = db.session.execute('SELECT category_id FROM manga_chapters ')
         print(resutld)
-# for x, y in db.session.query(Manga, MangaChapters).filter(Manga.id == MangaChapters.category_id).all():
-#             manga_chapters.append(y.chapter)
-#             manga_link.append(y.chapter_link)
-            
-#             print(x.id, x.title, y.chapter)
-    # @staticmethod
-    # def deleteManga():
-    #     db.session.query(Manga).delete()
-    #     db.session.commit()
+
+    def deleteManga(self, id):
+        db.session.query(Manga).delete(id)
+        db.session.commit()
