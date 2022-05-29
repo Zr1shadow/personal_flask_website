@@ -36,6 +36,8 @@ class MangaQueries():
         resutld = db.session.execute('SELECT category_id FROM manga_chapters ')
         print(resutld)
 
-    def deleteManga(self, id):
-        db.session.query(Manga).delete(id)
+    def deleteManga(self, manga_title):
+        db.session.query(Manga).filter_by(title = manga_title).delete()
+        db.session.expire_all()
         db.session.commit()
+        
