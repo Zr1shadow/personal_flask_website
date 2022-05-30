@@ -61,8 +61,9 @@ def manga_list():
 def delete_post(manga_title):
     form = PostNewMangaEntry()
     query = MangaQueries()
-    info = query.getAllMangaTitles()
     delete = query.deleteManga(manga_title)
+    info = query.getAllMangaTitles()
+    
 
     return render_template('manga_list.html', title = 'New Manga Entry', form = form, info = info)
 
