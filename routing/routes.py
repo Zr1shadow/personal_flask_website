@@ -1,10 +1,10 @@
 from flask import render_template, flash, redirect, url_for
-from routing.forms import RegistrationForm, LoginForm, PostNewMangaEntry
-from routing.models import User, Post
+from routing.database.forms import RegistrationForm, LoginForm, PostNewMangaEntry
+from routing.database.manga_schema import User, Post
 from routing import app, db
-from Scrapers.mangaScraper import Scaper
+from routing.features.scrapers.mangaScraper import Scaper
 from flask_login import login_user, current_user, logout_user
-from routing.queries import MangaQueries
+from routing.database.queries import MangaQueries
 
 
 @app.route('/home')
@@ -55,6 +55,16 @@ def manga_list():
         flash('Manga has been found', 'success')
         return redirect(url_for('manga', manga_title = title))
         # return redirect(url_for('home'))
+    return render_template('manga_list.html', title = 'New Manga Entry', form = form, info = info)
+
+@app.route('/delete_post/<manga_title>', methods = ['POST', 'GET'] )
+def delete_post(manga_title):
+    form = PostNewMangaEntry()
+    query = MangaQueries()
+    delete = query.deleteManga(manga_title)
+    info = query.getAllMangaTitles()
+    
+
     return render_template('manga_list.html', title = 'New Manga Entry', form = form, info = info)
 
 

@@ -7,11 +7,12 @@
         {{form.hidden_tag()}}
         <fieldset class = "form-group">
             <legend class = "border-bottom mb-4"> READ ME </legend>
-            <p> Go to <a href = "https://m.manganelo.com/read" target = "_blank">manganelo.com</a> and click on any manga. Grab that manga's url and enter it on this site input bar. <br>
+            <p> Go to <a href = "https://m.manganelo.com/wwww" target = "_blank">manganelo.com</a> and click on any manga. Grab that manga's url and enter it on this site input bar. <br>
                 my site scraps infomation such as the title and chapters and inputs it into my own db
             </p>
+
             <div class = form-group>
-                {{ form.url.label(class = 'form-control-label')}}
+                {{ form.url.label(class = 'form-control-label ')}}
                 
                 {% if form.url.errors %}
                     {{form.url(class = "form-control form-control-lg is-invalid")}}
@@ -36,8 +37,10 @@
     <div>
     
     {% for x in info %}
-        
-        <a href = "{{ url_for('manga',  manga_title = x) }}"> <h1>  {{ x }}  </h1></a>
+        <div class="container-fluid d-flex justify-content-between mx-0 border-bottom align-items-center mb-2 pb-1">
+            <a href = "{{ url_for('manga',  manga_title = x) }}"> <h6>  {{ x }}  </h6></a>
+            <a class="btn btn-danger h-50" href = "{{ url_for('delete_post',  manga_title = x) }}"> <h6>  Delete </h6></a>
+        </div>
     
     {% endfor %}
     </div>
