@@ -19,7 +19,7 @@ class MangaQueries():
         chapters = []
         title = db.session.query(Manga).filter_by(title = manga_title).first()
         # print(title.id)
-        for x in db.session.query(MangaChapters).filter(title.id == MangaChapters.category_id).all():
+        for x in db.session.query(MangaChapters).filter(title.id == MangaChapters.manga_id).all():
             my_tuple = (x.chapter, x.chapter_link)
             chapters.append(my_tuple)
             # chapter_link.append(x.chapter_link)
@@ -37,7 +37,15 @@ class MangaQueries():
         print(resutld)
 
     def deleteManga(self, manga_title):
-        db.session.query(Manga).filter_by(title = manga_title).delete()
-        db.session.expire_all()
+        manga = db.session.query(Manga).filter_by(title = manga_title).first()
+        # deletes all chapters only whichs means that 
+        db.session.query(MangaChapters).filter(manga.id == MangaChapters.manga_id).delete()
+        db.session.delete(manga)
+        # db.session.query(Manga).delete()
+        # db.session.query(MangaChapters).delete()
+        db.session.flush()
         db.session.commit()
+        db.session.expire_all()
+        
+       
         

@@ -1,6 +1,5 @@
 from routing import db, login_manager
 from flask_login import UserMixin
-from sqlalchemy.orm import joinedload
 from datetime import datetime
 
 @login_manager.user_loader
@@ -29,20 +28,16 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.title}')"
 
-
+# HAVE TO COME BACK TO THIS CASCADE ERROR
 class MangaChapters(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chapter = db.Column(db.String(30), nullable=False)
     chapter_link = db.Column(db.String(30),  nullable=False)
-    pub_date = db.Column(db.DateTime, nullable=False,
-        default=datetime.utcnow)
-
-    category_id = db.Column(db.Integer, db.ForeignKey('manga.id'),
+    manga_id = db.Column(db.Integer, db.ForeignKey('manga.id', ondelete="CASCADE"),
         nullable=False)
+
     
-    # cascade allows foreign key to be deleted when parent is deleted
-    manga = db.relationship('Manga',
-        backref=db.backref('posts', lazy=True, cascade='all,delete'))
+
     
     def __repr__(self):
         return '<MangaChapters %r>' % self.chapter
@@ -51,6 +46,8 @@ class MangaChapters(db.Model):
 class Manga(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True, nullable=False)
+    
+    chapters = db.relationship('MangaChapters', backref=db.backref("manga",cascade_backrefs=False), cascade_backrefs=False, cascade="all, delete-orphan",passive_deletes=True )
     def __repr__(self):
         return '< Manga %r>' % self.title
 
